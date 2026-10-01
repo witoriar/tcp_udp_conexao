@@ -1,4 +1,5 @@
 import socket
+import random
 
 HOST = "127.0.0.1"
 PORTA = 1232
@@ -9,14 +10,26 @@ servidor.bind((HOST, PORTA))
 
 print("Servidor UDP esperando mensagem...")
 
-mensagem, endereco = servidor.recvfrom(1024)
+numero_secreto = random.randint(1, 11)
 
-print("Cliente:", endereco)
-mensagem = mensagem.decode().upper()
-print("Mensagem recebida:", mensagem)
+while True:
+    mensagem, endereco = servidor.recvfrom(1024)
 
+    print("Cliente:", endereco)
 
-resposta = f"Mensagem recebida pelo servidor UDP: {mensagem}"
-servidor.sendto(resposta.encode(), endereco)
+    mensagem = mensagem.decode()
 
-servidor.close()
+    print("Palpite recebido:", mensagem)
+
+    palpite = int(mensagem)
+
+    if palpite == numero_secreto:
+        resposta = "Acertou"
+        servidor.sendto(resposta.encode(), endereco)
+        break
+
+    else:
+        resposta = "Errou! Tente novamente."
+        servidor.sendto(resposta.encode(), endereco)
+
+servidor.close()  

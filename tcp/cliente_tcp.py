@@ -7,7 +7,7 @@ cliente = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 cliente.connect((HOST, PORTA))
 
-mensagem = input("digite uma mensagen: ")
+mensagem = input("Digite o valor em reais para conversão: ")
 
 cliente.send(mensagem.encode())
 
@@ -16,4 +16,3 @@ resposta = cliente.recv(1024)
 print("Resposta do servidor:", resposta.decode())
 
 cliente.close()
-
